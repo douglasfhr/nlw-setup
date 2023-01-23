@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #09090a;
+  background-color: #06066a;
   color: white;
 
   height: 100vh;
@@ -20,14 +20,14 @@ header {
 
   position: fixed;
   width: 100%;
-  background-color: #09090a;
+  background-color: #06066a;
 }
 
 button {
-  padding: 16px 24px;
+  padding: 14px 21px;
   border-radius: 8px;
-  border: 1px solid #8b5cf6;
-  background-color: transparent;
+  border: 1px solid #1010d0;
+  background-color: rgb(1, 1, 48);
   color: white;
 
   display: flex;
@@ -85,7 +85,7 @@ button {
   font-size: 20px;
   line-height: 125%;
 
-  color: #a1a1aa;
+  color: #71b2e7;
 
   text-align: center;
 }
@@ -97,15 +97,15 @@ input {
   width: 64px;
   height: 64px;
 
-  border: 2px solid #27272a;
+  border: 2px solid #0909a6;
   border-radius: 8px;
 
   background: #18181b;
 }
 
 input:checked {
-  background: #8b5cf6;
-  border: 2px solid #a78bfa;
+  background: #1010d0;
+  border: 2px solid #1010d0;
 }
 
 @media (max-width: 570px) {
