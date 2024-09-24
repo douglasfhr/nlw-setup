@@ -13,15 +13,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Habits</title>
 
-    <link rel="stylesheet" href="./style.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #06066a;
+        color: white;
+        height: 100vh;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 48px;
+        position: fixed;
+        width: 100%;
+        background-color: #06066a;
+        transition: background-color 0.3s;
+      }
+
+      button {
+        padding: 14px 21px;
+        border-radius: 8px;
+        border: 1px solid #1010d0;
+        background-color: rgb(1, 1, 48);
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "Inter";
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 125%;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      #form-habits {
+        display: flex;
+        padding: 182px 48px 48px;
+        width: fit-content;
+      }
+
+      .habits {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .habit {
+        width: 64px;
+        height: 64px;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .days {
+        display: flex;
+        gap: 48px;
+        margin-left: 32px;
+      }
+
+      .day {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .day div {
+        margin-bottom: 8px;
+        font-family: "Roboto Mono";
+        font-size: 20px;
+        line-height: 125%;
+        color: #71b2e7;
+        text-align: center;
+      }
+
+      input {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 64px;
+        height: 64px;
+        border: 2px solid #0909a6;
+        border-radius: 8px;
+        background: #18181b;
+        cursor: pointer;
+      }
+
+      input:checked {
+        background: #1010d0;
+        border: 2px solid #1010d0;
+      }
+
+      #moon-icon {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 32px;
+        transition: transform 0.3s;
+      }
+
+      #moon-icon:hover {
+        transform: rotate(20deg);
+      }
+
+      .light-mode {
+        background-color: #f0f0f0;
+        color: #000;
+      }
+
+      .light-mode header {
+        background-color: #e0e0e0;
+      }
+
+      .light-mode button {
+        background-color: #d0d0d0;
+        color: #000;
+        border-color: #888;
+      }
+
+      @media (max-width: 570px) {
+        button div {
+          display: none;
+        }
+      }
+    </style>
   </head>
+
   <body>
     <header>
       <img src="./assets/logo.svg" alt="Logomarca do aplicativo Habits" />
 
-      <button>
-        <img src="./assets/plus.svg" alt="ícone sinal de mais roxo" />
+      <!-- Emoji da lua -->
+      <span id="moon-icon">🌙</span>
 
+      <button id="register-button">
+        <img src="./assets/plus.svg" alt="ícone sinal de mais roxo" />
         <div>Registrar o meu dia</div>
       </button>
     </header>
@@ -42,6 +179,42 @@
     </form>
 
     <script src="https://cdn.jsdelivr.net/gh/maykbrito/libs/NLWSetup/source/NLWSetup.js"></script>
-    <script src="./script.js"></script>
+    <script>
+      const form = document.querySelector("form");
+      const nlwSetup = new NLWSetup(form);
+      const button = document.querySelector("#register-button");
+      const moonIcon = document.getElementById("moon-icon");
+
+      // Função para alternar entre os temas
+      moonIcon.addEventListener("click", toggleTheme);
+
+      function toggleTheme() {
+        document.body.classList.toggle("light-mode");
+      }
+
+      button.addEventListener("click", add);
+      form.addEventListener("change", save);
+
+      function add() {
+        const today = new Date().toLocaleDateString("pt-br").slice(0, -5);
+        const dayExists = nlwSetup.dayExists(today);
+
+        if (dayExists) {
+          alert("Você já registrou seus hábitos hoje! 🛑");
+          return;
+        }
+
+        alert("Registrando seus hábitos! 😊");
+        nlwSetup.addDay(today);
+      }
+
+      function save() {
+        localStorage.setItem("NLWSetup@habits", JSON.stringify(nlwSetup.data));
+      }
+
+      const data = JSON.parse(localStorage.getItem("NLWSetup@habits")) || {};
+      nlwSetup.setData(data);
+      nlwSetup.load();
+    </script>
   </body>
 </html>
